@@ -1,15 +1,91 @@
+
 <!doctype html>
 <html>
+
 <head>
     <title>Words</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script type="text/javascript">
-        (function() {
-            // TODO: your JavaScript goes here!
-        }());
-    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    body {
+        background-color: #F5F5F5;
+    }
+
+    .btn.btn-blue {
+        text-transform: uppercase;
+        border-radius: 5px;
+        width: 160px;
+        height: 40px;
+        background-color: #1BBC9B;
+        color: white;
+        transition: 0.3s;
+    }
+
+    .btn-blue:hover {
+        background-color: #169a7f;
+    }
+    </style>
 </head>
+
 <body>
-    <!-- HTML goes here to accept input word and display results from the 3 AJAX calls to http://localhost:4444 -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-xl-2"></div>
+            <div class="col-xl-8" style="background-color: white; border: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); border-radius: 3px; padding: 20px;">
+                <h1 class="display-4">Havalo Coding Challenge</h1>
+                <form action=#" class="needs-validation" id="wordForm" novalidate>
+                    <div class="form-group">
+                        <label for="wordInput">Enter a word:</label>
+                        <input type="word" class="form-control" id="wordInput" placeholder="Enter word" name="word" required/>
+                        <div class="invalid-feedback">This field is required.</div>
+                    </div>
+                    <input type="submit" class="btn btn-blue" id="wordSubmit" value="Submit" />
+                    <div id="submitError" style="font-size: 16px; color: #dc3545; margin-top: 10px; display: none;">There was an error submitting the word. Please try again.</div>
+                </form>
+        	</div>
+            <div class="col-xl-2"></div>
+        </div>
+    </div>
+
+    <div class="container my-3" id="wordContainer">
+    	
+    </div>
+
+    <script type="text/javascript">
+        $("#wordForm").submit(function( event ) {
+	            if ($("#wordForm")[0].checkValidity() === false) {
+	                event.preventDefault();
+	                event.stopPropagation();
+	            } else {
+	            	$("#wordSubmit").prop("disabled", true);
+
+	            	var word = $("#wordInput").val();
+	                $.when(
+					    $.get("palindrome", { word: word }),
+					    $.get("duplicates", { word: word }),
+					    $.get("reverse", { word: word })
+					)
+					.always(function(){
+						$("#wordSubmit").prop("disabled", false);
+					})
+					.done(function(isPalindrome, containsDuplicateCharacters, reverse){
+						addWordCard(word, isPalindrome[0], containsDuplicateCharacters[0], reverse[0]);
+					})
+					.fail(function(){
+						$("#submitError").show();
+					});
+
+	            }
+
+	            $("#wordForm").addClass("was-validated");
+
+	            event.preventDefault();
+    	});
+
+    	function addWordCard(word, isPalindrome, containsDuplicateCharacters, reverse) {
+    		$("#wordContainer").prepend('<div class="row my-2"><div class="col-xl-2"></div><div class="col-xl-8" style="background-color: white; border: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); border-radius: 3px; padding: 20px;"><h1 class="display-5">' + word + '</h1><ul><li>' + word + ' is ' + (isPalindrome == "no" ? "not" : "") + ' a palindrome</li><li>' + word + (containsDuplicateCharacters == "no" ? " does not" : "") + ' contain' + (containsDuplicateCharacters == "yes" ? "s" : "") + ' duplicate characters</li><li>' + word + ' backwards is ' + reverse + '</li></ul></div><div class="col-xl-2"></div></div>');
+    	}
+    </script>
 </body>
 </html>
