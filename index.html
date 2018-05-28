@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <title>Havalo Coding Challenge</title>
+</head>
+<body>
+    <h1>Hello, candidate!</h1>
+    <p>If you're reading this in your web-browser, that means you have successfully compiled and started the Havalo coding challenge web-server!</p>
+    <p>This coding exercise is a two part challenge that demonstrates proficiency in fundamental Java, JavaScript, and basic web-application principles. You will be writing Java code, and JavaScript (using jQuery).  Your JavaScript will be making AJAX calls from the browser to the local web-server running at <em>http://localhost:4444</em>.</p>
+    <p>There are 2 files in this exercise:</p>
+    <ol>
+        <li>HavaloCodingChallenge.java</li>
+        <li><a href="words.html">words.html</a></li>
+    </ol>
+    <p>You will be editing both of these files.</p>
+    <p>The exercise is fairly simple, but requires a little creativity on your part.</p>
+    <p>You will be writing and wiring together a little web-app that takes in word (a String) and does the following:</p>
+    <ul>
+        <li>Displays whether or not the input word a palindrome.</li>
+        <li>Displays whether or not the input word contains duplicate characters.</li>
+        <li>The input word, in reverse.</li>
+    </ul>
+    <p>At the top of <em>HavaloCodingChallenge.java</em> you'll find 3 empty Java methods that you are required to fill in:</p>
+    <ul>
+        <li>public static boolean isPalindrome(String word)</li>
+        <li>public static boolean containsDuplicateCharacters(String word)</li>
+        <li>public static String reverseWord(String word)</li>
+    </ul>
+    <p>Once you've got the Java part figured out, check out <em>words.html</em>. Inside of <em>words.html</em>, you'll be writing JavaScript (using jQuery) that will make AJAX requests to the tiny-web server on <em>http://localhost:4444</em>. The AJAX requests, when received by the web-server, will invoke your 3 Java methods and will return the result to the browser. <strong>It is your task/challenge to write code in <em>words.html</em> that calls the server from JavaScript and displays the result &mdash; that is, display if the input word is a palindrome, if the input word contains duplicate characters, and the input word in reverse. How you accept the "input word" from the user and display the results from the server is totally your choice.</strong> Make it look pretty, wow us!</p>
+    <p>You are <em>required</em> to use jQuery to make the AJAX requests from the browser, but are allowed to use any additional JavaScript libraries and CSS toolkits of your choice if you'd like to make <em>words.html</em> look beautiful.<br/><a href="http://api.jquery.com">http://api.jquery.com</a></p>
+    <p>If you have questions, don't hesitate to ask, just email us at knockknock&commat;havalo.com. We love technical discussions!</p>
+</body>
+</html>
