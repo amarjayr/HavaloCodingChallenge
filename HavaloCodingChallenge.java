@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.Arrays;
 
 public final class HavaloCodingChallenge {
 
@@ -19,8 +20,11 @@ public final class HavaloCodingChallenge {
      * "123321" -> true
      */
     public static boolean isPalindrome(String word) {
-        // TODO: your java code here!
-        return false;
+        // While I could have implemented a custom isPalindrome algorithm (using recursion or just checking each character against its opposite counterpart),
+        // I decided to reuse the reverseWord function because (a) there is not efficiency sacrifice – regardless of what algorithm I use, O(n) will always be the best
+        // time-complexity and (b) the DRY principle.
+
+        return word.equals(reverseWord(word));
     }
 
     /**
@@ -33,7 +37,26 @@ public final class HavaloCodingChallenge {
      * "12341" -> true
      */
     public static boolean containsDuplicateCharacters(String word) {
-        // TODO: your java code here!
+        // In approaching this problem I determined two solutions: (1) Iterate through every character and compare it against
+        // every other character (this is O(n^2) yikes!) or (2) maintain an array with flags for every ASCII character and
+        // for every character check if the flag has already been set (the downfall of this approach is that it takes more
+        // memory – although this is trivial for the scale of this project).
+
+        char[] wordCharArr = word.toCharArray();
+
+        // Create an array of bools which is the size of ASCII and for every ASCII index set the array element to false
+        boolean[] wordBoolArr = new boolean[256];
+        Arrays.fill(wordBoolArr, false);
+
+        for (int i = 0; i < wordCharArr.length; i++) {
+            if (wordBoolArr[(int) wordCharArr[i]]) {
+                // If the flag has already been set there is a duplicate...
+                return true;
+            }
+
+            wordBoolArr[(int) wordCharArr[i]] = true;
+        }
+
         return false;
     }
 
@@ -45,8 +68,17 @@ public final class HavaloCodingChallenge {
      * "havalo" -> "olavah"
      */
     public static String reverseWord(String word) {
-        // TODO: your java code here!
-        return word;
+        // In a production environment I would most likely use the standard library reverse function (StringBuilder(word).reverse().toString()); 
+        // however, in the spirit of this programming challenge, I have implemented my own reverse functionality.
+
+        char[] wordCharArr = word.toCharArray();
+        char[] returnCharArr = new char[wordCharArr.length];
+
+        for (int i = wordCharArr.length; i > 0; i--) {
+            returnCharArr[wordCharArr.length - i] = wordCharArr[i - 1];
+        }
+
+        return new String(returnCharArr);
     }
 
     // ------------------------------------------------------------------------------
